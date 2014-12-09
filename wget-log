@@ -1,0 +1,14 @@
+--2014-12-07 15:30:34--  ftp://http/?/pinyin.sogou.com/linux/download.php?f=linux&bit=64
+           => “.listing”
+正在解析主机 http (http)... 218.68.250.119
+正在连接 http (http)|218.68.250.119|:21... 失败：连接超时。
+重试中。
+
+--2014-12-07 15:32:42--  ftp://http/?/pinyin.sogou.com/linux/download.php?f=linux&bit=64
+  (尝试次数： 2) => “.listing”
+正在连接 http (http)|218.68.250.119|:21... 失败：连接超时。
+重试中。
+
+--2014-12-07 15:34:52--  ftp://http/?/pinyin.sogou.com/linux/download.php?f=linux&bit=64
+  (尝试次数： 3) => “.listing”
+正在连接 http (http)|218.68.250.119|:21... 
