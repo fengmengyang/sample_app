@@ -5,6 +5,7 @@ describe User do
   subject {@user}
   it { should respond_to(:name) }
   it { should respond_to(:email) }
+  it { should respond_to(:remember_token) }
   
   describe "when email is present" do
     before { @user.email = "" }
@@ -43,5 +44,9 @@ describe User do
       email_user.save
     end
     it { should_not be_valid }
+  end
+  describe "remember token" do
+    before { @user.save }
+    it {expect(@user.remember_token).not_to be_blank}
   end
 end
