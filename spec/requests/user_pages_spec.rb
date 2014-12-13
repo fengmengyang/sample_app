@@ -4,8 +4,9 @@ describe "UserPages" do
   subject { page }
 
   describe "index" do
+    let(:user) { FactoryGirl.create(:user) }
     before do
-      sign_in FactoryGirl.create(:user)
+      sign_in user
       FactoryGirl.create(:user,name:"yang1",email:"yang1@example.com")
       FactoryGirl.create(:user,name:"yang2",email:"yang2@example.com")
       visit users_path
@@ -30,13 +31,13 @@ describe "UserPages" do
           sign_in admin
           visit users_path
         end
-        it { should have_link("delete",user_path(User.first)) }
+        it { should have_link("delete",href: user_path(User.first)) }
         it "should be able delete another user" do
           expect do
             click_link('delete',match: :first)
           end.to change(User,:count).by(-1)
         end
-        it { should_not have_link("delete",user_path(admin)) }
+        it { should_not have_link("delete",href: user_path(admin)) }
       end
     end
   end
