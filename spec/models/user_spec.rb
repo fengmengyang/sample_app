@@ -7,6 +7,7 @@ describe User do
   it { should respond_to(:email) }
   it { should respond_to(:remember_token) }
   it { should respond_to(:admin) }
+  it { should respond_to(:microposts) }
   it { should_not be_admin }
 
   describe "with admin attribute set true" do
@@ -57,5 +58,23 @@ describe User do
   describe "remember token" do
     before { @user.save }
     it {expect(@user.remember_token).not_to be_blank}
+  end
+
+
+  describe "micropost associations" do
+    before { @user.save }
+    let!(:old_micropost) { FactoryGirl.create(:micropost,user: @user,created_at: 1.day.ago) }
+    let!(:new_micropost) { FactoryGirl.create(:micropost,user: @user,created_at: 1.hour.ago)}
+    it "should have the microposts in the right order" do
+      expect(@user.microposts.to_a).to eq [new_micropost,old_micropost]
+    end
+    it "user destroy associated microposts" do
+      microposts = @user.microposts.to_a
+      @user.destroy
+      expect(microposts).not_to be_empty
+      microposts.each do |micropost|
+        expect(Micropost.where(id: micropost.user_id)).to be_empty
+      end
+    end
   end
 end
