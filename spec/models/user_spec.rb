@@ -65,6 +65,7 @@ describe User do
     before { @user.save }
     let!(:old_micropost) { FactoryGirl.create(:micropost,user: @user,created_at: 1.day.ago) }
     let!(:new_micropost) { FactoryGirl.create(:micropost,user: @user,created_at: 1.hour.ago)}
+    
     it "should have the microposts in the right order" do
       expect(@user.microposts.to_a).to eq [new_micropost,old_micropost]
     end
@@ -75,6 +76,12 @@ describe User do
       microposts.each do |micropost|
         expect(Micropost.where(id: micropost.user_id)).to be_empty
       end
+    end
+    describe "status" do
+      let!(:unfollowed) { FactoryGirl.create(:micropost,user: FactoryGirl.create(:user)) }
+      its(:feed) { should include(new_micropost) }
+      its(:feed) { should include(old_micropost) }
+      its(:feed) { should_not include(unfollowed) }
     end
   end
 end
