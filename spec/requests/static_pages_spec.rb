@@ -35,6 +35,23 @@ describe "Static pages" do
         expect(page).to have_selector("li##{feed.id}",text: feed.content)
       end
     end
+    describe "follower/following count" do
+      let(:other_user) { FactoryGirl.create(:user) }
+      before do
+        other_user.follow!(user)
+        visit root_path
+      end
+      it {expect(page).to have_link("0 following", href: following_user_path(user)) }
+      it {expect(page).to have_link("1 followers", href: followers_user_path(user)) }
+    end
+    describe "click link signout" do
+      let(:user) { FactoryGirl.create(:user) }
+      before do
+        sign_in user
+        click_link 'Sign out'
+      end
+      it { expect(page).to have_title(full_title("Home")) }
+    end
   end
 
 
